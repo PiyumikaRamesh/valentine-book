@@ -1,0 +1,226 @@
+:root {
+    --bg: linear-gradient(135deg, #fff0f5 0%, #ffe4ec 100%);
+    --cover: #fdf4f0;
+    --gold: #f4c095;
+    --rose: #ff8a9a;
+    --paper: #fffaf0;
+    --text: #5c2f2f;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+    font-family: 'Playfair Display', serif;
+    background: var(--bg);
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    padding: 1s0px;
+}
+
+/* Floating Hearts */
+.hearts-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* COVER */
+.book-cover {
+    width: min(840px, 95vw);
+    aspect-ratio: 840 / 630;
+    background: var(--cover);
+    border-radius: 28px 72px 28px 28px;
+    box-shadow: 0 30px 80px rgba(248,196,216,0.6);
+    cursor: pointer;
+    transition: all 1.8s ease;
+    border: 22px solid #f8c4d8;
+    position: relative;
+    overflow: hidden;
+}
+
+.cover-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 100%;
+}
+
+.gold-emblem {
+    font-size: clamp(2.5rem, 7vw, 4.2rem);
+    color: var(--gold);
+    margin-bottom: -10px;
+}
+
+.book-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(4.5rem, 10vw, 6.5rem);
+    color: var(--text);
+    line-height: 0.95;
+    text-shadow: 0 0 40px rgba(248,196,216,0.7);
+}
+
+.book-subtitle {
+    font-size: clamp(1.5rem, 4.5vw, 2rem);
+    color: #c96a7f;
+    letter-spacing: 8px;
+    margin: 20px 0 50px;
+}
+
+.heart-container {
+    width: min(180px, 48vw);
+    height: min(180px, 48vw);
+    margin: 0 auto -20px;
+    position: relative;
+}
+
+.heart {
+    width: 70%;
+    height: 70%;
+    background: linear-gradient(145deg, #ff9aa2, #ff6b7d);
+    clip-path: polygon(50% 18%, 82% 2%, 100% 28%, 100% 58%, 68% 87%, 50% 98%, 32% 87%, 0% 58%, 0% 28%, 18% 2%);
+    box-shadow: 0 25px 50px rgba(255,138,154,0.6);
+    animation: heartbeat 1.6s infinite;
+}
+
+@keyframes heartbeat { 0%,100% { transform:scale(1); } 50% { transform:scale(1.14); } }
+
+.heart-glow {
+    position: absolute;
+    inset: -40px;
+    background: radial-gradient(circle, rgba(255,154,162,0.5) 30%, transparent 70%);
+    animation: glow 2.8s infinite;
+}
+
+@keyframes glow { 0%,100% { transform:scale(1); opacity:0.7; } 50% { transform:scale(1.4); opacity:1; } }
+
+.open-hint {
+    color: #c96a7f;
+    font-size: clamp(1.1rem, 3.5vw, 1.3rem);
+    letter-spacing: 4px;
+}
+
+/* BOOK */
+.book {
+    display: none;
+    width: min(1020px, 95vw);
+    aspect-ratio: 1020 / 650;
+    perspective: 2400px;
+    z-index: 5;
+}
+
+.book-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background: #f8e8e0;
+    border-radius: 20px;
+    box-shadow: 0 40px 90px rgba(248,196,216,0.5);
+}
+
+.page {
+    width: 50%;
+    height: 100%;
+    background: var(--paper);
+    padding: clamp(50px, 7vw, 75px) clamp(40px, 6vw, 65px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: inset 20px 0 40px rgba(0,0,0,0.08);
+}
+
+.left-page  { border-radius: 20px 0 0 20px; }
+.right-page { border-radius: 0 20px 20px 0; box-shadow: inset -20px 0 40px rgba(0,0,0,0.08); }
+
+.book-spine {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 38px;
+    height: 100%;
+    background: linear-gradient(to right, #f8d0c8, #f4c095, #f8d0c8);
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spine-text {
+    writing-mode: vertical-rl;
+    color: #c96a7f;
+    font-size: 1.1rem;
+    letter-spacing: 6px;
+    font-weight: 600;
+}
+
+h2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(3rem, 8vw, 4.2rem);
+    color: var(--text);
+    margin-bottom: 30px;
+}
+
+.valentine-wish p {
+    font-size: clamp(1.2rem, 3.75vw, 1rem);
+    line-height: 1.5;
+    color: var(--text);
+    max-width: 95%;
+}
+
+.quote {
+    font-size: clamp(1.45rem, 4.8vw, 1.85rem);
+    line-height: 2;
+    color: var(--text);
+    padding: 50px 30px;
+    background: rgba(255,240,235,0.85);
+    border-radius: 26px;
+    box-shadow: 0 15px 40px rgba(248,196,216,0.3);
+}
+
+/* ==================== HEART-SHAPED IMAGE (LAST PAGE) ==================== */
+.romantic-final-img {
+    width: min(280px, 75vw);
+    height: min(280px, 75vw);
+    object-fit: cover;
+    clip-path: polygon(50% 15%, 80% 0%, 100% 25%, 100% 55%, 65% 85%, 50% 95%, 35% 85%, 0% 55%, 0% 25%, 20% 0%);
+    box-shadow: 0 25px 50px rgba(255,138,154,0.45),
+                inset 0 15px 30px rgba(255,255,255,0.6);
+    margin: 10px 0 450px;
+    transition: transform 0.4s;
+}
+
+.romantic-final-img:hover {
+    transform: scale(1.08);
+}
+
+/* Navigation & Music */
+.nav-controls {
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0px;
+    z-index: 0;
+}
+
+.nav-btn {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: white;
+    border: none;
+    font-size: 2rem;
+    color: var(--rose);
+    box-shadow: 0 12px 30px rgba(255,138,154,0.4);
+    cursor: pointer;
+}
+

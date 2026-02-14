@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Valentine's Day</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="hearts-container" id="hearts-container"></div>
+
+    <!-- COVER -->
+    <div id="cover" class="book-cover">
+        <div class="cover-content">
+            <div class="gold-emblem">♡</div>
+            <div class="book-title">Happy Valentine's Day</div>
+            <div class="book-subtitle">To Every Beautiful Heart</div>
+            
+            <div class="heart-container">
+                <div class="heart-glow"></div>
+                <div class="heart" id="magic-heart"></div>
+            </div>
+            
+            <p class="open-hint">Click the heart to open the wishes...</p>
+        </div>
+    </div>
+
+    <!-- BOOK -->
+    <div id="book" class="book">
+        <div class="book-inner">
+            <div class="page left-page" id="left-page">
+                <div class="page-content" id="left-content"></div>
+            </div>
+            <div class="book-spine">
+                <div class="spine-text">VALENTINE WISHES</div>
+            </div>
+            <div class="page right-page" id="right-page">
+                <div class="page-content" id="right-content"></div>
+            </div>
+        </div>
+
+        <div class="nav-controls">
+            <button id="prev-btn" class="nav-btn"><i class="fas fa-chevron-left"></i></button>
+            <button id="next-btn" class="nav-btn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <!-- Music -->
+    <div class="music-player">
+        <span class="song-title"></span>
+
+    </div>
+
+    <audio id="romantic-song" loop>
+        <source src="assets/romantic-song.mp3" type="audio/mp3">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
