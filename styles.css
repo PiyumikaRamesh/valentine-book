@@ -290,7 +290,7 @@ h2 {
     /* Make fireworks canvas responsive */
     #fireworks-canvas {
         width: 100%;
-        height: 250px;
+        height: 100%;
     }
 
     /* Fix image spacing */
