@@ -51,14 +51,12 @@ const pages = [
             </div>
         `,
         right: `
-            <h2 style="text-align:center;margin-bottom:5px;margin-top:100px;">With Love</h2>
-            
-            <!-- NEW IMAGE -->
+            <h2 style="text-align:center;margin-bottom:0px;margin-top:0px;">With Love</h2>
             <img src="assets/hart.png" class="romantic-final-img" alt="Love;">
-            
-            <canvas id="fireworks-canvas" width="460" height="480"></canvas>
-            <div style="text-align:center;margin-top:-900px;">
-                <button onclick="launchFireworks()" style="background:#ff8a9a;color:white;border:none;padding:18px 55px;border-radius:50px;font-size:1.3rem;cursor:pointer;">
+            <canvas id="fireworks-canvas"></canvas>
+            <div style="text-align:center;margin-top:5px;">
+                <button onclick="launchFireworks()" 
+                    style="background:#ff8a9a;color:white;border:none;padding:18px 55px;border-radius:50px;font-size:1.3rem;cursor:pointer;">
                     Light Up the Love ❤️
                 </button>
             </div>
@@ -68,15 +66,14 @@ const pages = [
 
 let currentPage = 0;
 let isPlaying = true;
-const audio = document.getElementById('romantic-song');
 
+const audio = document.getElementById('romantic-song');
 const cover = document.getElementById('cover');
 const book = document.getElementById('book');
 const leftContent = document.getElementById('left-content');
 const rightContent = document.getElementById('right-content');
 const prevBtn = document.getElementById('prev-btn');
 const nextBtn = document.getElementById('next-btn');
-const musicToggle = document.getElementById('music-toggle');
 
 // Floating hearts
 function createFloatingHearts(count) {
@@ -84,106 +81,177 @@ function createFloatingHearts(count) {
     for (let i = 0; i < count; i++) {
         const heart = document.createElement('div');
         heart.textContent = '❤️';
-        heart.style.cssText = `position:absolute;font-size:${Math.random()*32+24}px;left:${Math.random()*100}vw;bottom:-60px;opacity:${Math.random()*0.7+0.4};animation:floatHeart ${Math.random()*4.5+5}s linear forwards;animation-delay:${Math.random()*1}s;`;
+        heart.style.cssText = `
+            position:absolute;
+            font-size:${Math.random()*32+24}px;
+            left:${Math.random()*100}vw;
+            bottom:-60px;
+            opacity:${Math.random()*0.7+0.4};
+            animation:floatHeart ${Math.random()*4.5+5}s linear forwards;
+        `;
         container.appendChild(heart);
-        setTimeout(() => heart.remove(), 11000);
+        setTimeout(() => heart.remove(), 10000);
     }
 }
 
 const style = document.createElement('style');
-style.innerHTML = `@keyframes floatHeart { to { transform:translateY(-130vh) rotate(30deg); opacity:0; } }`;
+style.innerHTML = `
+@keyframes floatHeart {
+    to { transform:translateY(-130vh) rotate(30deg); opacity:0; }
+}`;
 document.head.appendChild(style);
 
 // Load page
 function loadPage(index) {
     const page = pages[index];
-    leftContent.style.opacity = '0';
-    rightContent.style.opacity = '0';
-    setTimeout(() => {
-        leftContent.innerHTML = page.left;
-        rightContent.innerHTML = page.right;
-        leftContent.style.opacity = '1';
-        rightContent.style.opacity = '1';
-        if (index === 2) setTimeout(launchFireworks, 700);
-    }, 400);
+    leftContent.innerHTML = page.left;
+    rightContent.innerHTML = page.right;
     prevBtn.disabled = index === 0;
     nextBtn.disabled = index === pages.length - 1;
+
+    if (index === 2) {
+        setTimeout(() => {
+            initFireworks();
+            animateFireworks();
+        }, 300);
+    }
 }
 
-// Fireworks + Responsive Canvas
-let canvas, ctx, fireworks = [], particles = [];
+// ================= FIREWORK SYSTEM =================
+
+let canvas, ctx;
+let fireworks = [];
+let particles = [];
 
 function initFireworks() {
     canvas = document.getElementById('fireworks-canvas');
+    if (!canvas) return;
     ctx = canvas.getContext('2d');
     resizeCanvas();
 }
 
 function resizeCanvas() {
     if (!canvas) return;
-    canvas.width = Math.min(canvas.parentElement.offsetWidth * 0.92, 460);
-    canvas.height = Math.min(canvas.parentElement.offsetHeight * 0.85, 480);
+    canvas.width = canvas.parentElement.offsetWidth;
+    canvas.height = 250;
 }
+
 
 window.addEventListener('resize', resizeCanvas);
 
-// Firework & Particle classes (full from your original)
 class Firework {
     constructor() {
         this.x = Math.random() * canvas.width;
         this.y = canvas.height;
-        this.sx = Math.random() * 3 - 1.5;
-        this.sy = Math.random() * -12 - 8;
-        this.color = `hsl(${Math.random()*60 + 330}, 100%, 60%)`;
-        this.trail = [];
+        this.sx = (Math.random() - 0.5) * 3;
+        this.sy = -10 - Math.random() * 4;
+        this.color = `hsl(${Math.random()*60 + 330},100%,60%)`;
+        this.life = 60;
     }
-    update() { /* same as your original */ }
-    draw() { /* same as your original */ }
+
+    update() {
+        this.x += this.sx;
+        this.y += this.sy;
+        this.sy += 0.25;
+        this.life--;
+
+        if (this.life <= 0) {
+            explode(this.x, this.y, this.color);
+            fireworks.splice(fireworks.indexOf(this), 1);
+        }
+    }
+
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+    }
 }
 
 class Particle {
-    constructor(x, y, color) { /* same as your original */ }
-    update() { /* same */ }
-    draw() { /* same */ }
+    constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.speedX = (Math.random() - 0.5) * 6;
+        this.speedY = (Math.random() - 0.5) * 6;
+        this.life = 80;
+    }
+
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.speedY += 0.1;
+        this.life--;
+    }
+
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+    }
+}
+
+function explode(x, y, color) {
+    for (let i = 0; i < 40; i++) {
+        particles.push(new Particle(x, y, color));
+    }
 }
 
 function launchFireworks() {
-    for (let i = 0; i < 7; i++) {
-        setTimeout(() => fireworks.push(new Firework()), i * 120);
+    if (!canvas) return;
+    for (let i = 0; i < 6; i++) {
+        setTimeout(() => {
+            fireworks.push(new Firework());
+        }, i * 150);
     }
 }
 
 function animateFireworks() {
+    if (!ctx) return;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // (paste your full animation code here - same as before)
+
+    fireworks.forEach(f => {
+        f.update();
+        f.draw();
+    });
+
+    particles.forEach((p, index) => {
+        p.update();
+        p.draw();
+        if (p.life <= 0) particles.splice(index, 1);
+    });
+
     requestAnimationFrame(animateFireworks);
 }
 
 // Open book
 function openBook() {
-    createFloatingHearts(40);
-    cover.style.transform = 'perspective(1400px) rotateY(-105deg) translateX(-200px)';
-    setTimeout(() => {
-        cover.style.display = 'none';
-        book.style.display = 'block';
-        loadPage(0);
-        audio.volume = 0.78;
-        audio.play().catch(()=>{});
-        initFireworks();
-        animateFireworks();
-    }, 1200);
+    createFloatingHearts(30);
+    cover.style.display = 'none';
+    book.style.display = 'block';
+    loadPage(0);
+    audio.volume = 0.7;
+    audio.play().catch(()=>{});
 }
 
 cover.addEventListener('click', openBook);
-nextBtn.addEventListener('click', () => { if (currentPage < pages.length-1) { currentPage++; loadPage(currentPage); createFloatingHearts(10); } });
-prevBtn.addEventListener('click', () => { if (currentPage > 0) { currentPage--; loadPage(currentPage); } });
-
-musicToggle.addEventListener('click', () => {
-    if (isPlaying) { audio.pause(); musicToggle.innerHTML = `<i class="fas fa-play"></i>`; }
-    else { audio.play(); musicToggle.innerHTML = `<i class="fas fa-pause"></i>`; }
-    isPlaying = !isPlaying;
+nextBtn.addEventListener('click', () => {
+    if (currentPage < pages.length - 1) {
+        currentPage++;
+        loadPage(currentPage);
+    }
+});
+prevBtn.addEventListener('click', () => {
+    if (currentPage > 0) {
+        currentPage--;
+        loadPage(currentPage);
+    }
 });
 
-setInterval(() => { if (book.style.display === 'block') createFloatingHearts(8); }, 3800);
-
-console.log('%c❤️ Happy Valentine\'s Day Wishes Ready ❤️', 'color:#ff8a9a;font-family:Dancing Script;font-size:20px');
+setInterval(() => {
+    if (book.style.display === 'block') createFloatingHearts(6);
+}, 4000);
