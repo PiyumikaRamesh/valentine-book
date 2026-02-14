@@ -2,61 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Valentine's Day</title>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Happy Valentine's Day 💕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="hearts-container" id="hearts-container"></div>
 
-    <!-- COVER -->
-    <div id="cover" class="book-cover">
+    <div id="hearts-container"></div>
+
+    <!-- ═══════════════ COVER ═══════════════ -->
+    <div id="cover">
         <div class="cover-content">
             <div class="gold-emblem">♡</div>
             <div class="book-title">Happy Valentine's Day</div>
             <div class="book-subtitle">To Every Beautiful Heart</div>
-            
-            <div class="heart-container">
-                <div class="heart-glow"></div>
-                <div class="heart" id="magic-heart"></div>
+
+            <div class="cover-heart-wrap">
+                <div class="cover-heart-glow"></div>
+                <div class="cover-heart"></div>
             </div>
-            
-            <p class="open-hint">Click the heart to open the wishes...</p>
+
+            <p class="open-hint">Click to open &nbsp;·&nbsp; Tap to open</p>
         </div>
     </div>
 
-    <!-- BOOK -->
-    <div id="book" class="book">
+    <!-- ═══════════════ BOOK ═══════════════ -->
+    <div id="book">
         <div class="book-inner">
-            <div class="page left-page" id="left-page">
+            <div class="page left-page">
                 <div class="page-content" id="left-content"></div>
             </div>
+
             <div class="book-spine">
-                <div class="spine-text">VALENTINE WISHES</div>
+                <div class="spine-text">Valentine Wishes</div>
             </div>
-            <div class="page right-page" id="right-page">
+
+            <div class="page right-page" style="position:relative;">
                 <div class="page-content" id="right-content"></div>
             </div>
         </div>
 
         <div class="nav-controls">
-            <button id="prev-btn" class="nav-btn"><i class="fas fa-chevron-left"></i></button>
-            <button id="next-btn" class="nav-btn"><i class="fas fa-chevron-right"></i></button>
+            <button id="prev-btn" class="nav-btn" aria-label="Previous page">&#8592;</button>
+            <button id="next-btn" class="nav-btn" aria-label="Next page">&#8594;</button>
         </div>
     </div>
 
-    <!-- Music -->
-    <div class="music-player">
-        <span class="song-title"></span>
-
+    <!-- ═══════════════ MUSIC ═══════════════ -->
+    <div class="music-player" id="music-player" title="Toggle music">
+        <div class="music-icon" id="music-icon">♫</div>
+        <span class="music-label" id="music-label">♪ Playing</span>
     </div>
 
     <audio id="romantic-song" loop>
-        <source src="assets/romantic-song.mp3" type="audio/mp3">
+        <source src="assets/romantic-song.mp3" type="audio/mp4">
+        <source src="assets/romantic-song.mp3" type="audio/mpeg">
     </audio>
 
     <script src="script.js"></script>
